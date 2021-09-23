@@ -1,0 +1,40 @@
+version: "2.4"
+services:
+  springboot-angular-dxdatagrid-lab-backend:
+    container_name: autenticador-horizon-backend
+    image: springboot-angular-dxdatagrid-lab-backend:dev
+    build:
+      context: .
+      dockerfile: src/docker/modules/Dockerfile.backend
+    command: "mvn clean spring-boot:run -Dspring-boot.run.arguments=--spring.datasource.url=jdbc:oracle:thin:@springboot-angular-dxdatagrid-lab-oraclexe:1521:xe -Pdocker-output-directory"
+    restart: unless-stopped
+    volumes:
+      -  /tmp/.m2/repository:/root/.m2/repository
+      - ./autenticador-horizon-backend/:/autenticador-horizon/autenticador-horizon-backend
+    ports:
+      - 8080:8080
+      - 9090:9090
+    networks:
+      - springboot-angular-dxdatagrid-lab-net
+
+  springboot-angular-dxdatagrid-lab-frontend:
+    container_name: springboot-angular-dxdatagrid-lab-frontend
+    image: springboot-angular-dxdatagrid-lab-frontend:dev
+    build:
+      context: .
+      dockerfile: src/docker/modules/Dockerfile.frontend
+    command: "npx ng serve --host 0.0.0.0"
+    volumes:
+      - ./autenticador-horizon-frontend/:/autenticador-horizon-frontend
+      - autenticador-horizon-node-modules:/autenticador-horizon-frontend/node_modules
+    ports:
+      - 4200:4200
+    networks:
+      - springboot-angular-dxdatagrid-lab-net
+
+volumes:
+  springboot-angular-dxdatagrid-lab-node-modules:
+
+networks:
+  springboot-angular-dxdatagrid-lab-net:
+    external: true
