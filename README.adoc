@@ -1,4 +1,4 @@
-= springboot-angular-dxdatagrid-lab
+= springboot-angular-horizon-lab
 :toc:
 :toc-title: Índice
 :sectnums:
