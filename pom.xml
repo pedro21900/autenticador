@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>horizon</groupId>
+    <artifactId>autenticador-horizon</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.2</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <name>autenticator-horizon</name>
+    <description>autenticator-horizon</description>
+
+    <modules>
+        <module>autenticador-horizon-backend</module>
+        <module>autenticador-horizon-frontend</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>xtool-io</groupId>
+                <artifactId>xcli-plugin</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>xtool-io</groupId>
+                        <artifactId>xcli</artifactId>
+                        <version>1.0.0-SNAPSHOT</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+	    <plugin>
+	        <groupId>io.fabric8</groupId>
+	        <artifactId>docker-maven-plugin</artifactId>
+	        <version>0.36.1</version>
+	        <configuration>
+	            <images>
+	                <image>
+	                  <name>${env.DOCKER_REGISTRY}/sds/apps/autenticador-horizon-backend:${env.APPVERSION}</name>
+	                </image>
+	             </images>
+	        </configuration>
+	    </plugin>
+	    <plugin>
+	        <groupId>org.eclipse.jkube</groupId>
+	        <artifactId>kubernetes-maven-plugin</artifactId>
+	        <version>1.3.0</version>
+	    </plugin>
+        </plugins>
+    </build>
+
+</project>

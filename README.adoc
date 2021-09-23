@@ -1,0 +1,125 @@
+= springboot-angular-dxdatagrid-lab
+:toc:
+:toc-title: Índice
+:sectnums:
+
+$artifactDescription
+
+== Especificações do Projeto
+
+- 4 profiles de execução: `local` (default), `dev`, `hmg` e `prod`
+- Suporte ao `Oracle11 XE` em ambiente de desenvolvimento local
+- `Flyway` para execução das migrations de banco de dados
+
+
+== Pré-requisitos
+
+* Docker
+* Docker composer
+* Java 8
+* Maven 3
+* Node 12
+* Angular CLI
+
+== Execução local da aplicação
+
+
+=== Passo 1 - Inicialização dos serviços
+
+Abra o terminal e na _raiz do projeto_ `springboot-angular-dxdatagrid-lab` e executar:
+
+[source,shell]
+----
+$ sudo docker-compose -f src/docker/services.yml up --remove-orphans
+----
+
+O serviço estará operacional quando hover a seguinte saida no console
+
+[source, log]
+----
+springboot-angular-dxdatagrid-lab-oraclexe |
+springboot-angular-dxdatagrid-lab-oraclexe |
+springboot-angular-dxdatagrid-lab-oraclexe | Grant succeeded.
+springboot-angular-dxdatagrid-lab-oraclexe |
+springboot-angular-dxdatagrid-lab-oraclexe |
+springboot-angular-dxdatagrid-lab-oraclexe | Grant succeeded.
+springboot-angular-dxdatagrid-lab-oraclexe |
+springboot-angular-dxdatagrid-lab-oraclexe |
+springboot-angular-dxdatagrid-lab-oraclexe | Grant succeeded.
+springboot-angular-dxdatagrid-lab-oraclexe |
+springboot-angular-dxdatagrid-lab-oraclexe |
+springboot-angular-dxdatagrid-lab-oraclexe | Grant succeeded.
+springboot-angular-dxdatagrid-lab-oraclexe |
+springboot-angular-dxdatagrid-lab-oraclexe |
+springboot-angular-dxdatagrid-lab-oraclexe | Grant succeeded.
+springboot-angular-dxdatagrid-lab-oraclexe |
+springboot-angular-dxdatagrid-lab-oraclexe |
+springboot-angular-dxdatagrid-lab-oraclexe | User altered.
+springboot-angular-dxdatagrid-lab-oraclexe |
+springboot-angular-dxdatagrid-lab-oraclexe | Disconnected from Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+springboot-angular-dxdatagrid-lab-oraclexe |
+springboot-angular-dxdatagrid-lab-oraclexe |
+----
+
+
+=== Passo 2 - Execução do módulo backend
+
+Ainda no terminal entrar no módulo backend:
+
+[source, shell]
+----
+$ cd springboot-angular-dxdatagrid-lab-backend
+$ mvn clean spring-boot:run
+----
+
+=== Passo 3 - Execução do módulo frontend
+
+Na raiz do projeto entrar no módulo frontend:
+
+[source, shell]
+----
+$ cd springboot-angular-dxdatagrid-lab-frontend
+$ npm i
+$ npx ng s
+----
+
+> O comando `npm i` só é necessário caso seja a primeira execução do módulo frontend ou alguma dependência do projeto tenha sido alterada.
+
+== Testando API Rest com o Postman
+
+Para utilizar o Postman para testes das APIs Rests da aplicação é necessário enviar o token JWT (obtido via autenticação no Keycloak) 
+em cada requisição. Os passos abaixos realizam a configuração na ferramenta para automatizar o processo de obteção do token.
+
+Passo 1: Copie o script abaixo e cole na aba 'Pré-request Script' do Postman
+
+```
+const echoPostRequest = {
+      url: "http://localhost:8085/auth/realms/TRE-PA/protocol/openid-connect/token",
+      method: "POST",
+      header: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: {
+          mode: "urlencoded",
+          urlencoded: [
+                  {key: "grant_type", value: "password", disabled: false},
+                  {key: "username", value: "root", disabled: false},
+                  {key: "password", value: "root", disabled: false},
+                  {key: "client_id", value: "springboot-angular-dxdatagrid-lab-frontend", disabled: false}
+              ]
+      }
+  };
+  
+  pm.sendRequest(echoPostRequest, function (err, res) {
+      pm.environment.set("auth",res.json().access_token);
+      console.log(`auth: ${res.json().access_token}`);
+  });
+
+```
+
+Passo 2: Na aba 'Headers' Adicione o seguinte:
+
+Key: Authorization 
+ 
+Value: Bearer {{auth}} 

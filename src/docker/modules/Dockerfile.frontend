@@ -1,0 +1,12 @@
+FROM reg.tre-pa.jus.br/library/node:12.13.0-alpine
+
+WORKDIR /autenticador-horizon-frontend
+
+ADD ./autenticador-horizon-frontend/.npmrc /root/
+ADD autenticador-horizon-frontend/package.json  .
+ADD autenticador-horizon-frontend/package-lock.json .
+ADD autenticador-horizon-frontend/cldrdatadwnl.json .
+
+RUN apk update && apk add git
+
+RUN npm install
