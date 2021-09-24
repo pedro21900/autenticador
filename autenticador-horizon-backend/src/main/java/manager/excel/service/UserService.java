@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import manager.excel.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -18,7 +19,8 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private PasswordEncoder passwordEncode;
     public List<User> findAllUsers() throws EntityNotFoundException {
         return userRepository.findAll();
     }
@@ -29,6 +31,9 @@ public class UserService {
     }
 
     public User saveUser(User user) {
+        User usr=user;
+        usr.setPassword(passwordEncode.encode(user.getPassword()));
+
         return userRepository.save(user);
     }
 
