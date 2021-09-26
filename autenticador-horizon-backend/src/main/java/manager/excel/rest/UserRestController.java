@@ -1,6 +1,7 @@
 package manager.excel.rest;
 
 import manager.excel.domain.User;
+import manager.excel.repository.UserRepository;
 import manager.excel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,8 @@ public class UserRestController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
 
     @PostMapping

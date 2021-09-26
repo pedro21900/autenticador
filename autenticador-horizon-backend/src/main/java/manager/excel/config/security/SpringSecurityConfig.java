@@ -1,4 +1,4 @@
-package manager.excel.config;
+package manager.excel.config.security;
 
 import manager.excel.domain.model.UserSecurity;
 //import manager.excel.service.UserSecurityService;
@@ -28,13 +28,17 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserSecurityService userSecurityService;
 
+    @Autowired
+    private AuthenticationEntryPoint authEntryPoint;
+
     @Bean
-    DaoAuthenticationProvider authenticationProvider(){
+    DaoAuthenticationProvider authenticationProvider() throws Exception {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(getPasswordEncoder());
         provider.setUserDetailsService(userSecurityService);
         return provider;
     }
+
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
@@ -49,16 +53,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/api/users").hasAnyAuthority("USER")
-                .antMatchers(HttpMethod.GET,"/api/users").hasAnyAuthority("USER")
-                .antMatchers(HttpMethod.GET,"/api/company").hasAnyAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET,"/swagger-ui/**").hasAnyAuthority("ADMIN")
-                .antMatchers("/").hasAnyAuthority("ADMIN","USER")
-                .and()
-                .formLogin()
-                .defaultSuccessUrl("/swagger-ui/", true);
+        http.csrf().disable().authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/api/users").hasAnyAuthority("USER")
+                .antMatchers(HttpMethod.GET, "/api/users/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, "/api/company").hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/swagger-ui/**").hasAnyAuthority("ADMIN")
+                .anyRequest().authenticated()
+                .and().httpBasic()
+                .authenticationEntryPoint(authEntryPoint);
+              /*
+                .defaultSuccessUrl("/swagger-ui/", true);*/
+
+
     }
 }
 
