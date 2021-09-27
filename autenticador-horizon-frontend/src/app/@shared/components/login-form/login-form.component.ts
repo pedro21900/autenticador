@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import {Component, NgModule, OnInit} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import notify from 'devextreme/ui/notify';
 import { AuthService } from '../../services';
-import {HttpClient} from "@angular/common/http";
 
 
 @Component({
@@ -13,24 +12,20 @@ import {HttpClient} from "@angular/common/http";
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.scss']
 })
-export class LoginFormComponent {
+export class LoginFormComponent implements OnInit{
   loading = false;
   formData: any = {};
 
-
-  constructor(private authService: AuthService, private router: Router, private http: HttpClient) {
+  constructor(private authService: AuthService, private router: Router) { }
+  ngOnInit() {
   }
-
-
-
-
 
   async onSubmit(e: Event) {
     e.preventDefault();
-    const { userName: userName, password } = this.formData;
+    const { email, password } = this.formData;
     this.loading = true;
 
-    const result = await this.authService.logIn(userName, password);
+    const result = await this.authService.logIn(email, password);
     if (!result.isOk) {
       this.loading = false;
       notify(result.message, 'error', 2000);

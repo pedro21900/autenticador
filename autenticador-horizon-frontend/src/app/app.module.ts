@@ -1,21 +1,27 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
-import { SideNavOuterToolbarModule, SideNavInnerToolbarModule, SingleCardModule } from './layouts';
-import { FooterModule, ResetPasswordFormModule, CreateAccountFormModule, ChangePasswordFormModule, LoginFormModule } from './@shared/components';
-import { AuthService, ScreenService, AppInfoService } from './@shared/services';
-import { UnauthenticatedContentModule } from './unauthenticated-content';
-import { AppRoutingModule } from './app-routing.module';
+import {AppComponent} from './app.component';
+import {SideNavOuterToolbarModule, SideNavInnerToolbarModule, SingleCardModule} from './layouts';
+import {
+  FooterModule,
+  ResetPasswordFormModule,
+  CreateAccountFormModule,
+  ChangePasswordFormModule,
+  LoginFormModule
+} from './@shared/components';
+import {AuthService, ScreenService, AppInfoService} from './@shared/services';
+import {UnauthenticatedContentModule} from './unauthenticated-content';
+import {AppRoutingModule} from './app-routing.module';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
-import {XhrInterceptor} from "../app/@core/xhr-interceptor"
 
 @NgModule({
   declarations: [
     AppComponent
   ],
-  providers: [ScreenService, AppInfoService,AuthService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
+  providers: [ScreenService,
+    AppInfoService],
   imports: [
     BrowserModule,
     SideNavOuterToolbarModule,
@@ -34,4 +40,5 @@ import {XhrInterceptor} from "../app/@core/xhr-interceptor"
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

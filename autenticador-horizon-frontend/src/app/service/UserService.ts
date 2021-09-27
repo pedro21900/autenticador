@@ -6,7 +6,7 @@ import {Observable, of, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {LoadOptions} from "devextreme/data/load_options";
 import {HttpParamsAdapter} from "../@core/types/http-params-adapter";
-import {User} from "../domain/User";
+import {User} from "../domain/user";
 
 @Injectable(({
   providedIn: 'root',

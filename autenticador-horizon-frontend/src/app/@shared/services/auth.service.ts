@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {AuthenticationBean} from "../../domain/authentication-bean";
+import {environment} from "../../../environments/environment";
+import {HttpClient} from "@angular/common/http";
 
 export interface IUser {
   email: string;
@@ -13,11 +15,13 @@ const defaultUser = {
   avatarUrl: 'https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/images/employees/06.png'
 };
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthService {
-  credentials = {username: '', password: ''};
   private _user: IUser | null = defaultUser;
   get loggedIn(): boolean {
+
     return !!this._user;
   }
 
@@ -26,37 +30,17 @@ export class AuthService {
     this._lastAuthenticatedPath = value;
   }
 
-  authenticated = false;
+  constructor(private router: Router,private http: HttpClient) { }
 
-  constructor(private authService:AuthService ,private router: Router,private http: HttpClient) { }
-
-  authenticate(credentials:any, callback:any) {
-
-    const headers = new HttpHeaders(credentials ? {
-      authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password)
-    } : {});
-
-    this.http.get('auth', {headers: headers}).subscribe(response => {
-      if (response['User']) {
-        this.authenticated = true;
-      } else {
-        this.authenticated = false;
-      }
-      return callback && callback();
-    });
-
-  }
-  async logIn(userName: string, password: string) {
+  async logIn(email: string, password: string) {
 
     try {
       // Send request
-
-
-        this.authService.authenticate(this.credentials, () => {
-          this.router.navigateByUrl('/');
-        });
-      console.log(userName, password);
-      this._user = { ...defaultUser, email: userName };
+      this.http.get<AuthenticationBean>(`${environment.urlbase}/auth`).subscribe((data:any)=>{
+        console.log(data.message);
+      });
+      console.log(email, password);
+      this._user = { ...defaultUser, email };
       this.router.navigate([this._lastAuthenticatedPath]);
 
       return {
