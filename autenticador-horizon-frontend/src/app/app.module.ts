@@ -7,11 +7,15 @@ import { FooterModule, ResetPasswordFormModule, CreateAccountFormModule, ChangeP
 import { AuthService, ScreenService, AppInfoService } from './@shared/services';
 import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
+import {XhrInterceptor} from "../app/@core/xhr-interceptor"
 
 @NgModule({
   declarations: [
     AppComponent
   ],
+  providers: [ScreenService, AppInfoService,AuthService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
   imports: [
     BrowserModule,
     SideNavOuterToolbarModule,
@@ -23,9 +27,11 @@ import { AppRoutingModule } from './app-routing.module';
     ChangePasswordFormModule,
     LoginFormModule,
     UnauthenticatedContentModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserModule,
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [AuthService, ScreenService, AppInfoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

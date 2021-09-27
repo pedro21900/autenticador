@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 export interface IUser {
   email: string;
@@ -14,6 +15,7 @@ const defaultUser = {
 
 @Injectable()
 export class AuthService {
+  credentials = {username: '', password: ''};
   private _user: IUser | null = defaultUser;
   get loggedIn(): boolean {
     return !!this._user;
@@ -24,14 +26,37 @@ export class AuthService {
     this._lastAuthenticatedPath = value;
   }
 
-  constructor(private router: Router) { }
+  authenticated = false;
 
-  async logIn(email: string, password: string) {
+  constructor(private authService:AuthService ,private router: Router,private http: HttpClient) { }
+
+  authenticate(credentials:any, callback:any) {
+
+    const headers = new HttpHeaders(credentials ? {
+      authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password)
+    } : {});
+
+    this.http.get('auth', {headers: headers}).subscribe(response => {
+      if (response['User']) {
+        this.authenticated = true;
+      } else {
+        this.authenticated = false;
+      }
+      return callback && callback();
+    });
+
+  }
+  async logIn(userName: string, password: string) {
 
     try {
       // Send request
-      console.log(email, password);
-      this._user = { ...defaultUser, email };
+
+
+        this.authService.authenticate(this.credentials, () => {
+          this.router.navigateByUrl('/');
+        });
+      console.log(userName, password);
+      this._user = { ...defaultUser, email: userName };
       this.router.navigate([this._lastAuthenticatedPath]);
 
       return {
