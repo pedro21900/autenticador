@@ -31,13 +31,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationEntryPoint authEntryPoint;
 
-    @Bean
-    DaoAuthenticationProvider authenticationProvider() throws Exception {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(getPasswordEncoder());
-        provider.setUserDetailsService(userSecurityService);
-        return provider;
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .userDetailsService(userSecurityService).passwordEncoder(getPasswordEncoder());
+
     }
+
 
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
