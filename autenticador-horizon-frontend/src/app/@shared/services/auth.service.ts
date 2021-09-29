@@ -36,9 +36,9 @@ export class AuthService {
 
     try {
       // Send request
-   /*   this.http.get<AuthenticationBean>(`${environment.urlbase}/auth`).subscribe((data:any)=>{
-        console.log(data.message);*/
-      });
+/*   /!*   this.http.get<AuthenticationBean>(`${environment.urlbase}/auth`).subscribe((data:any)=>{
+        console.log(data.message);*!/
+      });*/
       console.log(email, password);
       this._user = { ...defaultUser, email };
       this.router.navigate([this._lastAuthenticatedPath]);
