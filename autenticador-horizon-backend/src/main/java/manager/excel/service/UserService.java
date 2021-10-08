@@ -36,8 +36,10 @@ public class UserService {
 
         return userRepository.save(user);
     }
-
-    public User updateUser(User user) {
+    public User update(Long id, User user) {
+        if (!userRepository.existsById(id)) throw new EntityNotFoundException(
+            "Tipo de Ponto Transmissão não encontrado"
+        );
         return userRepository.save(user);
     }
 

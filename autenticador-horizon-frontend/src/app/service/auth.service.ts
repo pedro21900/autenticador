@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
-import {AuthenticationBean} from "../../domain/authentication-bean";
-import {environment} from "../../../environments/environment";
+import {AuthenticationBean} from "../domain/authentication-bean";
+import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 
 export interface IUser {

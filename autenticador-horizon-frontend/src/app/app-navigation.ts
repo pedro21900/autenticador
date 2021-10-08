@@ -5,12 +5,13 @@ export const navigation = [
     icon: 'home'
   },
   {
-    text: 'Examples',
-    icon: 'folder',
+    text: 'Usuários',
+    path: '/usuario',
+    icon: 'group',
     items: [
       {
-        text: 'Profile',
-        path: '/profile'
+        text: 'Perfil',
+        path: '/perfil'
       },
       {
         text: 'Tasks',
@@ -18,4 +19,5 @@ export const navigation = [
       }
     ]
   }
+
 ];

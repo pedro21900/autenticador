@@ -10,11 +10,13 @@ import {
   ChangePasswordFormModule,
   LoginFormModule
 } from './@shared/components';
-import {AuthService, ScreenService, AppInfoService} from './@shared/services';
+import {AuthService, ScreenService, AppInfoService} from './service';
 import {UnauthenticatedContentModule} from './unauthenticated-content';
 import {AppRoutingModule} from './app-routing.module';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
+import {UsuarioPageModule} from "./view/usuario/usuario-page.module";
+
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import {FormsModule} from "@angular/forms";
   providers: [ScreenService,
     AppInfoService],
   imports: [
+    UsuarioPageModule,
     BrowserModule,
     SideNavOuterToolbarModule,
     SideNavInnerToolbarModule,
@@ -38,6 +41,7 @@ import {FormsModule} from "@angular/forms";
     HttpClientModule,
     FormsModule
   ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,4 +1,4 @@
-package manager.excel.config.security.mvc;
+package manager.excel.core.security.mvc;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,10 +13,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");// <- assim permite de qualquer origem, troque "/**" pelo seu dominio por exemplo "http://meudominio.com"
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedHeaders("*")
+                .allowedMethods("GET", "POST", "PUT","PATCH", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT");
     }
-    @Bean
-    public InternalResourceViewResolver defaultViewResolver() {
-        return new InternalResourceViewResolver();
-    }
+
 }

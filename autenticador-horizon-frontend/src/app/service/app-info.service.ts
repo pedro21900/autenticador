@@ -5,7 +5,7 @@ export class AppInfoService {
   constructor() {}
 
   public get title() {
-    return 'Autenticador Horizon Java Frontend';
+    return 'Horizon';
   }
 
   public get currentYear() {

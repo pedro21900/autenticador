@@ -1,4 +1,4 @@
-package manager.excel.config;
+package manager.excel.core;
 
 import org.springframework.boot.actuate.audit.InMemoryAuditEventRepository;
 import org.springframework.context.annotation.Bean;

@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   styleUrls: [ './profile.component.scss' ]
 })
 
-export class ProfileComponent {
+export class PerfilComponent {
   employee: any;
   colCountByScreen: object;
 

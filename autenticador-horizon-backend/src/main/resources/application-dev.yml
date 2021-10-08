@@ -29,3 +29,9 @@ endpoints:
 flyway:
   oracle:
     sqlplus: true
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO

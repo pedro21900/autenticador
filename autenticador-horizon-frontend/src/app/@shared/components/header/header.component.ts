@@ -1,7 +1,7 @@
 import { Component, NgModule, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AuthService, IUser } from '../../services';
+import { AuthService, IUser } from '../../../service';
 import { UserPanelModule } from '../user-panel/user-panel.component';
 import { DxButtonModule } from 'devextreme-angular/ui/button';
 import { DxToolbarModule } from 'devextreme-angular/ui/toolbar';
