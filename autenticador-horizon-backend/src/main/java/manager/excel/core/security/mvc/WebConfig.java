@@ -1,3 +1,4 @@
+/*
 package manager.excel.core.security.mvc;
 
 import org.springframework.context.annotation.Bean;
@@ -19,4 +20,4 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT","PATCH", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT");
     }
 
-}
+}*/
