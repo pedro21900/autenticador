@@ -21,9 +21,11 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
+    "audit": "0.0.6",
     "devextreme": "^21.1.5",
     "devextreme-angular": "^21.1.5",
     "devextreme-schematics": "^1.2.21",
+    "no": "0.0.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
@@ -42,6 +44,6 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
-    "typescript": "~4.3.5"
+    "typescript": "^4.3.5"
   }
 }

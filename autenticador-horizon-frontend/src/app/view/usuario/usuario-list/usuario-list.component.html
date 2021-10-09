@@ -1,0 +1,25 @@
+<div class="content-block">
+    <dx-data-grid
+            id="gridContainer"
+            [dataSource]="dataSource"
+            [showBorders]="true">
+        <dxo-editing
+                mode="row"
+                [allowUpdating]="true"
+                [allowAdding]="true"
+                [allowDeleting]="true">
+        </dxo-editing>
+        <!-- COLUMNS -->
+        <dxi-column dataField="id" caption="Id" [visible]="false">
+        </dxi-column>
+        <!-- Nome -->
+        <dxi-column dataField="name" caption="Nome">
+        </dxi-column>
+        <!-- User Name -->
+        <dxi-column dataField="username" caption="UserName">
+        </dxi-column>
+        <!-- Password -->
+      <dxi-column  [customizeText]="customizeText"  dataType="password" dataField="password" caption="Senha" editorOptions="password" >
+        </dxi-column>
+    </dx-data-grid>
+</div>

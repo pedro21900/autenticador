@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import {Component, NgModule, OnInit} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import notify from 'devextreme/ui/notify';
-import { AuthService } from '../../services';
+import { AuthService } from '../../../service';
 
 
 @Component({
@@ -12,11 +12,13 @@ import { AuthService } from '../../services';
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.scss']
 })
-export class LoginFormComponent {
+export class LoginFormComponent implements OnInit{
   loading = false;
   formData: any = {};
 
   constructor(private authService: AuthService, private router: Router) { }
+  ngOnInit() {
+  }
 
   async onSubmit(e: Event) {
     e.preventDefault();

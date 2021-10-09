@@ -28,7 +28,7 @@ function intersection(arrays: any[]): any[] {
  *
  * @param filter description
  */
-export function toFilterable(filters: any[]): UdfFilterable | undefined {
+export function toFilterable(filters: any[]): UdfFilterable | any {
   if (!filters) {
     return;
   }

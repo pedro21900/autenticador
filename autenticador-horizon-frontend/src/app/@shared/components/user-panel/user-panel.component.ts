@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DxListModule } from 'devextreme-angular/ui/list';
 import { DxContextMenuModule } from 'devextreme-angular/ui/context-menu';
-import { IUser } from '../../services/auth.service';
+import { IUser } from '../../../service/auth.service';
 
 @Component({
   selector: 'app-user-panel',

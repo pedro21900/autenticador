@@ -1,18 +1,18 @@
-import {Page} from './../@core/types/page';
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from 'src/environments/environment';
-import {Observable, of, throwError} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable, of, throwError} from "rxjs";
+import {catchError, map} from "rxjs/operators";
 import {LoadOptions} from "devextreme/data/load_options";
 import {HttpParamsAdapter} from "../@core/types/http-params-adapter";
-import {User} from "../domain/User";
+import {User} from "../domain/user";
+import {Page} from "../@core/types";
 
-@Injectable(({
+@Injectable({
   providedIn: 'root',
-}))
+})
 export class UserService {
-  API_RESOURCE_PATH: string = `${environment.urlbase}/users`
+  API_RESOURCE_PATH: string = `${environment.urlbase}/api/users`
 
   constructor(private http: HttpClient) {
   }
@@ -23,15 +23,18 @@ export class UserService {
   public update(id: number, resource: User): Observable<User> {
     return this.http.put<User>(`${this.API_RESOURCE_PATH}/${id}`, resource);
   }
-  public delete(id: number, resource: User): Observable<User> {
-    return this.http.delete<User>(`${this.API_RESOURCE_PATH}/${id}`);
+  public delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.API_RESOURCE_PATH}/${id}`);
+  }
+  public patch(id: number, resourceValues: any) {
+    return this.http.patch(`${this.API_RESOURCE_PATH}/${id}`, User.from(resourceValues));
   }
 
   public findById(id: number, resource: User): Observable<User> {
     return this.http.post<User>(`${this.API_RESOURCE_PATH}/${id}`, resource);
   }
 
-/*  public FindAll(loadOptions: LoadOptions): Observable<{ data: User[]; totalCount: number  }> {
+  public findAll(loadOptions: LoadOptions): Observable<{ data: User[]; totalCount: number | any }> {
     const params = new HttpParamsAdapter(loadOptions).httpParams();
     return this.http.get<Page<User>>(this.API_RESOURCE_PATH, {params})
       .pipe(
@@ -43,5 +46,5 @@ export class UserService {
           return throwError(new Error(error.message))
         })
       )
-  }*/
+  }
 }

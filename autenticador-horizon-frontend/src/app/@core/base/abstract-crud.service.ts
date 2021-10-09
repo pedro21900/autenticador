@@ -13,7 +13,7 @@ export abstract class AbstractCrudService<T, ID> {
   protected constructor(private _http: HttpClient) {
   }
 
-  public findAll(params: HttpParams): Observable<{ data: T[]; totalCount: number }> {
+  public findAll(params: HttpParams): Observable<{ data: T[]; totalCount?: number }> {
     return this._http.get<Page<T>>(this.API_PATH, {params})
       .pipe(
         map((page: Page<T>) => ({

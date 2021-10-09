@@ -4,6 +4,8 @@ spring:
     driver-class-name: ENC(zzlmjrhTnpGt1atw93PGck9rkEyRG3xEMtpNCGC0SIft+zXA5qBUUws2RVA/wkwdThr6tFEP8GXhWaceLMoSRw==)
     username: ENC(tAB6hqRa+U4lcanKhonh4mBpXv6APu3sARpfEfC6Qy+eeiDBFPkj8OTbxsxlwCIR)
     password: ENC(JeesEUScspyRMMN+YXpydhMXdndcpnxEX7dwkB7Bocj7/oC3pMdb8VC6X3cPLA6c)
+    hikari:
+      maxLifetime: 30000
   jpa:
     hibernate:
       ddl-auto: update
@@ -29,3 +31,9 @@ endpoints:
 flyway:
   oracle:
     sqlplus: true
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO
