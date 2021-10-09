@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginFormComponent, ResetPasswordFormComponent, CreateAccountFormComponent, ChangePasswordFormComponent } from './@shared/components';
 import { AuthGuardService } from './service';
 import { HomeComponent } from './view/home/home.component';
-import { TasksComponent } from './view/tasks/tasks.component';
+import { HistoricoComponent } from './view/historico/historico.component';
 import { DxDataGridModule, DxFormModule } from 'devextreme-angular';
 import {PerfilComponent} from "./view/perfil/perfil.component";
 
@@ -13,8 +13,8 @@ const routes: Routes = [
   { path : 'usuario', loadChildren : () => import('./view/usuario/usuario-page.module').then(m => m.UsuarioPageModule) ,
     canActivate: [ AuthGuardService ]},
   {
-    path: 'tasks',
-    component: TasksComponent,
+    path: 'historico',
+    component: HistoricoComponent,
     canActivate: [ AuthGuardService ]
   },
   {
@@ -57,6 +57,6 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { useHash: true }), DxDataGridModule, DxFormModule],
   providers: [AuthGuardService],
   exports: [RouterModule],
-  declarations: [HomeComponent, PerfilComponent, TasksComponent]
+  declarations: [HomeComponent, PerfilComponent, HistoricoComponent]
 })
 export class AppRoutingModule { }

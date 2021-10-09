@@ -8,6 +8,6 @@ import {UserService} from "../../service/UserService";
     providers: [UserService]
 })
 export class UsuarioPageComponent {
-    RESOURCE_NAME = 'Ponto de Transmissão';
+    RESOURCE_NAME = 'Horizon';
     constructor() { }
 }

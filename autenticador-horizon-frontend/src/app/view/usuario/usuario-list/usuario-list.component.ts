@@ -20,7 +20,7 @@ export class UsuarioListComponent {
 
 
 
-    RESOURCE_NAME = 'Ponto de Transmissão';
+    RESOURCE_NAME = 'Usuários';
 
     // Datasource do componente DataGrid
     dataSource: DataSource;
@@ -37,11 +37,6 @@ export class UsuarioListComponent {
                     return service.insert(values).toPromise();
                 },
                 update: (key, values) => {
-                    // var pontoTransmissao = new PontoTransmissao()
-                    // Object.assign(pontoTransmissao, values)
-                    // console.log(pontoTransmissao);
-                    // // return service.patch(key, values).toPromise();
-                    // return Promise.resolve()
                     return service.patch(key, User.from(values)).toPromise()
                 },
                 remove: (key) => {

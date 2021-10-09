@@ -14,8 +14,8 @@ export const navigation = [
         path: '/perfil'
       },
       {
-        text: 'Tasks',
-        path: '/tasks'
+        text: 'Histórico',
+        path: '/historico'
       }
     ]
   }

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-  templateUrl: 'profile.component.html',
-  styleUrls: [ './profile.component.scss' ]
+  templateUrl: 'perfil.component.html',
+  styleUrls: [ './perfil.component.scss' ]
 })
 
 export class PerfilComponent {
