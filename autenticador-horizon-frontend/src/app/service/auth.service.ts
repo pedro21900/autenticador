@@ -3,6 +3,8 @@ import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 import {AuthenticationBean} from "../domain/authentication-bean";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
+import {ApiService} from "./api.service";
+import {User} from "../domain/user";
 
 export interface IUser {
   email: string;
@@ -19,7 +21,7 @@ const defaultUser = {
   providedIn: 'root',
 })
 export class AuthService {
-  private _user: IUser | null = defaultUser;
+  private _user: User  = new User;
   get loggedIn(): boolean {
 
     return !!this._user;
@@ -30,17 +32,32 @@ export class AuthService {
     this._lastAuthenticatedPath = value;
   }
 
-  constructor(private router: Router,private http: HttpClient) { }
+  constructor(private apiService: ApiService,private router: Router,private http: HttpClient) { }
 
+  public loginSuccess(data: any) {
+    localStorage.clear();
+    localStorage.setItem('accessToken', data.access_token);
+    localStorage.setItem('refreshToken', data.refresh_token);
+    this.apiService.getMainUser(localStorage.getItem('accessToken')).subscribe(user => {
+      this.redirectPage(user);
+    }, error => {
+      console.log('Error ao pegar usuário logado!');
+    });
+  }
+  public  redirectPage(user: any) {
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    this.router.navigate(['welcome']);
+  }
   async logIn(email: string, password: string) {
 
     try {
-      // Send request
-/*   /!*   this.http.get<AuthenticationBean>(`${environment.urlbase}/auth`).subscribe((data:any)=>{
-        console.log(data.message);*!/
-      });*/
+      this.apiService.login(email,password).subscribe(data => {
+        this.loginSuccess(data);
+      }, error => {
+        console.log('Error ao fazer LOGIN!');
+      });
       console.log(email, password);
-      this._user = { ...defaultUser, email };
+      /*this._user = new User();*/
       this.router.navigate([this._lastAuthenticatedPath]);
 
       return {
@@ -126,7 +143,7 @@ export class AuthService {
   }
 
   async logOut() {
-    this._user = null;
+    this._user = new User();
     this.router.navigate(['/login-form']);
   }
 }
