@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 
@@ -30,7 +29,7 @@ public class UserRestController {
 
     @PostMapping
     public ResponseEntity<User> createrUser(@RequestBody User user) {
-        return ResponseEntity.ok(userService.saveUser(user));
+        return ResponseEntity.ok(userService.create(user));
     }
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

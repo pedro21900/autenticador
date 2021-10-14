@@ -1,2 +1,11 @@
-package manager.excel.service.excepition;public class ObjectAlreadyExistException {
+package manager.excel.service.excepition;
+
+import java.io.Serializable;
+
+public class ObjectAlreadyExistException extends  RuntimeException implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    public ObjectAlreadyExistException(String message){
+        super(message);
+    }
 }
