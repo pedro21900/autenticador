@@ -1,11 +1,12 @@
 package manager.excel.service;
 
+import javassist.tools.rmi.ObjectNotFoundException;
 import manager.excel.domain.User;
 import manager.excel.domain.model.VerificationToken;
 import manager.excel.repository.AccessLevelRepository;
 import manager.excel.repository.VerificationTokenReposiroty;
+import manager.excel.service.email.EmailService;
 import manager.excel.service.excepition.ObjectAlreadyExistException;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,16 +17,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private EmailService emailService;
     @Autowired
     private PasswordEncoder passwordEncode;
     @Autowired
@@ -57,11 +57,13 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public User registerUser(User user) {
+    public User registerUser(User user) throws ObjectNotFoundException {
         if (existsByUsername(user.getUsername()))
             throw new ObjectAlreadyExistException(String.format("Já existe um usuário com este email "));
         user.setAccessLevel(accessLevelRepository.findByDescription("CONV").get());
+        user.setActive(false);
         user = create(user);
+        this.emailService.sendConfirmationHtmlEmail(user,null);
         return user;
     }
 
@@ -93,5 +95,13 @@ public class UserService {
     public User findByUsername(String username){
         Optional<User> user = userRepository.findByUsername(username);
         return user.orElseThrow(()-> new EntityNotFoundException(String.format("Usuário não encontrado")));
+    }
+    public VerificationToken generateNewVerificationToken(String username) throws ObjectNotFoundException {
+        User user=findByUsername(username);
+        Optional<VerificationToken>vToken=verificationTokenReposiroty.findByUser(user);
+        vToken.get().updateToken(UUID.randomUUID().toString());
+        VerificationToken updateVToken=verificationTokenReposiroty.save(vToken.get());
+        emailService.sendConfirmationHtmlEmail(user,updateVToken);
+        return updateVToken;
     }
 }

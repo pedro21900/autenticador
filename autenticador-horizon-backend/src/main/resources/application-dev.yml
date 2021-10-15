@@ -14,6 +14,23 @@ spring:
       default-view-inclusion: true
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
+  mail:
+    host: smtp.gmail.com
+    username: pedro21900@gmail.com
+    password: Pe070394
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: smtp.gmail.com
+          auth: true
+          socketFactory:
+            port: 465
+            class:
+            fallback: false
+          starttls:
+            enable: true
+          enable: true
 info:
   app:
     name: @project.name@
@@ -41,3 +58,7 @@ default:
   sender: pedro21900@gmail.com
   recipient: pedro21900@gmail.com
   url: http://localhost:8080
+javax:
+  net:
+    ssl:
+      SSLSocketFactory:

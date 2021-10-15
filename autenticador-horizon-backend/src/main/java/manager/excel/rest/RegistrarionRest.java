@@ -1,5 +1,6 @@
 package manager.excel.rest;
 
+import javassist.tools.rmi.ObjectNotFoundException;
 import manager.excel.domain.User;
 import manager.excel.repository.UserRepository;
 import manager.excel.rest.Response.GenericResponse;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
-@RequestMapping("/api")
+@RequestMapping("/api/public")
 @RestController
 public class RegistrarionRest {
     @Autowired
@@ -26,13 +27,13 @@ public class RegistrarionRest {
 
     @Autowired
     DefaultTokenServices tokenServices = new DefaultTokenServices();
-    @PostMapping("/public/registration/user")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
+    @PostMapping("/registration/user")
+    public ResponseEntity<User> registerUser(@RequestBody User user) throws ObjectNotFoundException {
         this.userService.registerUser(user);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/public/registrationConfirm/user")
+    @GetMapping("/registrationConfirm/user")
     public ResponseEntity<GenericResponse> registrationConfirmUser(@RequestParam("token") String token) {
         final Object result = this.userService.validateVerificationToken(token);
         if (result == null) {
@@ -55,5 +56,10 @@ public class RegistrarionRest {
             tokenServices.revokeToken(String.valueOf(auth2AccessToken));
         }
         return  ResponseEntity.noContent().build();
+    }
+    @GetMapping("/resendRegistrationToken/user")
+    public ResponseEntity<Void> resendRegistrationToken(@RequestParam("username") String username) throws ObjectNotFoundException {
+        this.userService.generateNewVerificationToken(username);
+        return ResponseEntity.noContent().build();
     }
 }
